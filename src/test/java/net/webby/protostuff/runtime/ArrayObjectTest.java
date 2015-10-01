@@ -7,11 +7,11 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.dyuproject.protostuff.LinkedBuffer;
-import com.dyuproject.protostuff.ProtobufIOUtil;
-import com.dyuproject.protostuff.Schema;
-import com.dyuproject.protostuff.Tag;
-import com.dyuproject.protostuff.runtime.RuntimeSchema;
+import io.protostuff.LinkedBuffer;
+import io.protostuff.ProtobufIOUtil;
+import io.protostuff.Schema;
+import io.protostuff.Tag;
+import io.protostuff.runtime.RuntimeSchema;
 
 /**
  * 
