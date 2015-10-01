@@ -20,16 +20,16 @@ public final class ReflectionUtil {
 			return new Pair<Type, Type>(Object.class, Object.class);
 		}
 		
-    ParameterizedType parameterized = (ParameterizedType) type;
+		ParameterizedType parameterized = (ParameterizedType) type;
 
-    Type keyType = parameterized.getActualTypeArguments()[0];
-    Type valueType = parameterized.getActualTypeArguments()[1];
-    
-    return Pair.newPair(keyType, valueType);
+		Type keyType = parameterized.getActualTypeArguments()[0];
+		Type valueType = parameterized.getActualTypeArguments()[1];
+		
+		return Pair.newPair(keyType, valueType);
 	}
 	
-  public static String getClassHierarchy(Class<?> cls) {
-  	StringBuilder str = new StringBuilder();
+	public static String getClassHierarchy(Class<?> cls) {
+		StringBuilder str = new StringBuilder();
 		while (cls != Object.class) {
 			if (str.length() > 0) {
 				str.append(" < ");
@@ -51,7 +51,7 @@ public final class ReflectionUtil {
 		return null;
 	}
 	
-	public static Pair<RuntimeFieldType, Class<?>> normalizeFieldClass(com.dyuproject.protostuff.runtime.MappedSchema.Field<?> field) {
+	public static Pair<RuntimeFieldType, Class<?>> normalizeFieldClass(io.protostuff.runtime.Field<?> field) {
 		Class<?> fieldClass = field.getClass();
 		while (fieldClass != Object.class) {
 			RuntimeFieldType type = RuntimeFieldType.findByName(fieldClass.getSimpleName());

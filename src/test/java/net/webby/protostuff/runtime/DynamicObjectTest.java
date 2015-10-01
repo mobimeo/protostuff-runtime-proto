@@ -9,11 +9,11 @@ import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.dyuproject.protostuff.ByteString;
-import com.dyuproject.protostuff.LinkedBuffer;
-import com.dyuproject.protostuff.ProtobufIOUtil;
-import com.dyuproject.protostuff.Schema;
-import com.dyuproject.protostuff.runtime.RuntimeSchema;
+import io.protostuff.ByteString;
+import io.protostuff.LinkedBuffer;
+import io.protostuff.ProtobufIOUtil;
+import io.protostuff.Schema;
+import io.protostuff.runtime.RuntimeSchema;
 
 /**
  * 

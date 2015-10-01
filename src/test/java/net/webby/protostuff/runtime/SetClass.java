@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
-import com.dyuproject.protostuff.Tag;
+import io.protostuff.Tag;
 
 /**
  * 

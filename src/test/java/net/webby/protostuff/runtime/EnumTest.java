@@ -6,16 +6,16 @@ import java.io.File;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.dyuproject.protostuff.LinkedBuffer;
-import com.dyuproject.protostuff.ProtobufIOUtil;
-import com.dyuproject.protostuff.Schema;
-import com.dyuproject.protostuff.parser.EnumGroup;
-import com.dyuproject.protostuff.parser.Field;
-import com.dyuproject.protostuff.parser.Field.Modifier;
-import com.dyuproject.protostuff.parser.Message;
-import com.dyuproject.protostuff.parser.Proto;
-import com.dyuproject.protostuff.parser.ProtoUtil;
-import com.dyuproject.protostuff.runtime.RuntimeSchema;
+import io.protostuff.LinkedBuffer;
+import io.protostuff.ProtobufIOUtil;
+import io.protostuff.Schema;
+import io.protostuff.parser.EnumGroup;
+import io.protostuff.parser.Field;
+import io.protostuff.parser.Field.Modifier;
+import io.protostuff.parser.Message;
+import io.protostuff.parser.Proto;
+import io.protostuff.parser.ProtoUtil;
+import io.protostuff.runtime.RuntimeSchema;
 
 /**
  * 

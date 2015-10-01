@@ -4,44 +4,43 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.webby.proto</groupId>
 	<artifactId>protostuff-runtime-proto</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>protostuff-runtime-proto</name>
 	<description>Protostuff Runtime Proto Files Generator</description>
 
-    <properties>
-      <protostuff.version>1.0.9</protostuff.version>
-      <antlr3.version>3.2</antlr3.version>
-    </properties>
+	<properties>
+		<protostuff.version>1.3.6</protostuff.version>
+		<antlr3.version>3.2</antlr3.version>
+	</properties>
 
 	<dependencies>
-
 		<dependency>
-			<groupId>com.dyuproject.protostuff</groupId>
+			<groupId>io.protostuff</groupId>
 			<artifactId>protostuff-core</artifactId>
 			<version>${protostuff.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>com.dyuproject.protostuff</groupId>
+			<groupId>io.protostuff</groupId>
 			<artifactId>protostuff-runtime</artifactId>
 			<version>${protostuff.version}</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>com.dyuproject.protostuff</groupId>
+			<groupId>io.protostuff</groupId>
 			<artifactId>protostuff-parser</artifactId>
 			<version>${protostuff.version}</version>
 			<scope>test</scope>
 		</dependency>
 		
-	    <dependency>
-	      <groupId>org.antlr</groupId>
-	      <artifactId>antlr-runtime</artifactId>
-	      <version>${antlr3.version}</version>
-	    </dependency>		
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr-runtime</artifactId>
+			<version>${antlr3.version}</version>
+		</dependency>		
 		
-        <!-- TEST -->
+		<!-- TEST -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -62,7 +61,7 @@
 					<downloadJavadocs>true</downloadJavadocs>
 					<wtpversion>2.0</wtpversion>
 				</configuration>
-			</plugin>		
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -83,7 +82,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>			
+			</plugin>
 		</plugins>
 	</build>
 
