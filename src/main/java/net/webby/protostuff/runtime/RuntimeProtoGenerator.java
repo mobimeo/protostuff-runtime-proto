@@ -241,8 +241,10 @@ public class RuntimeProtoGenerator implements ProtoGenerator {
 							output.append("map<").append(keyClassName).append(", ").append(valueClassName).append(">").append(" ").append(field.name).
 									append(" = ").append(field.number).append(";\n");
 
-							addMessage(keyValue.getFirst());
-							addMessage(keyValue.getSecond());
+							if (keyValue.getFirst() != Object.class && keyValue.getSecond() != Object.class) {
+								addMessage(keyValue.getFirst());
+								addMessage(keyValue.getSecond());
+							}
 							continue;
 
 						case PolymorphicEnumSchema:
@@ -293,8 +295,11 @@ public class RuntimeProtoGenerator implements ProtoGenerator {
 
 	private void addMessage(Type type) throws ClassNotFoundException {
 		if (type != String.class) {
+			if (generateAdditionalMessages == null) {
+				generateAdditionalMessages = new HashMap<String, Object>();
+			}
 			Schema<?> schema = RuntimeSchema.getSchema(Class.forName(type.getTypeName()));
-			generateAdditionalMessages.put(FieldType.MESSAGE.name(), new Message(Class.forName(type.getTypeName()), schema));
+			generateAdditionalMessages.put(type.getTypeName(), new Message(Class.forName(type.getTypeName()), schema));
 		}
 	}
 
