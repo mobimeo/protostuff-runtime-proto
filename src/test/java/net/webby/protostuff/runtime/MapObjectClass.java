@@ -2,8 +2,10 @@ package net.webby.protostuff.runtime;
 
 import io.protostuff.Tag;
 
+import java.util.Map;
+
 /**
- * 
+ *
  * @author Alex Shvid
  *
  */
@@ -12,12 +14,12 @@ import io.protostuff.Tag;
 public class MapObjectClass {
 
 	@Tag(1)
-	protected MapStringString stringToString;
+	protected Map<String, String> stringToString;
 
 	@Tag(2)
-	protected MapStringObject stringToObject;
+	protected Map<String, MapValueObject> stringToObject;
 
 	@Tag(3)
-	protected MapObjectObject objectToObject;
-	
+	protected Map<MapKeyObject, MapValueObject> objectToObject;
+
 }

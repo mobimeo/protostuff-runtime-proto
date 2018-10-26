@@ -1,7 +1,7 @@
 package net.webby.protostuff.runtime;
 
 /**
- * 
+ *
  * @author Alex Shvid
  *
  */
@@ -25,8 +25,8 @@ import java.util.Set;
 
 /**
  * Proto File Generator from Protostuff Runtime Schema
- * 
- * 
+ *
+ *
  * @author Alex Shvid
  *
  */
@@ -34,22 +34,22 @@ import java.util.Set;
 public class RuntimeProtoGenerator implements ProtoGenerator {
 
 	private static final Class<?>[] knownTypes = { java.util.UUID.class };
-	
+
 	static {
 		Arrays.sort(knownTypes, ClassNameComparator.INSTANCE);
 	}
-	
+
 	public enum ClassNameComparator implements Comparator<Class<?>> {
-		
+
 		INSTANCE;
 
 		@Override
 		public int compare(Class<?> arg0, Class<?> arg1) {
 			return arg0.getName().compareTo(arg1.getName());
 		}
-		
+
 	}
-	
+
 	private final Schema<?> schema;
 	private String packageName;
 	private String javaPackageName;
@@ -57,19 +57,19 @@ public class RuntimeProtoGenerator implements ProtoGenerator {
 	private Set<String> generatedMessages = new HashSet<String>();
 	private Map<String, Object> generateAdditionalMessages = null;
 	private StringBuilder output = new StringBuilder();
-	
+
 	public RuntimeProtoGenerator(Schema<?> schema) {
 		if (!(schema instanceof RuntimeSchema)) {
 			throw new IllegalArgumentException("schema instance must be a RuntimeSchema");
 		}
-		
+
 		this.schema = schema;
 		Class<?> typeClass = schema.typeClass();
 		this.javaPackageName = typeClass.getPackage().getName();
 		this.packageName = this.javaPackageName.replace('.', '_');
 
 	}
-	
+
 	@Override
 	public ProtoGenerator setJavaOuterClassName(String outerClassName) {
 		this.outerClassName = outerClassName;
@@ -81,13 +81,13 @@ public class RuntimeProtoGenerator implements ProtoGenerator {
 		this.packageName = packageName;
 		return this;
 	}
-	
+
 	@Override
 	public ProtoGenerator setJavaPackageName(String packageName) {
 		this.javaPackageName = packageName;
 		return this;
 	}
-	
+
 	@Override
 	public String generate() {
 		if (output.length() == 0) {
@@ -103,15 +103,15 @@ public class RuntimeProtoGenerator implements ProtoGenerator {
 		output.append("import \"protostuff-default.proto\";\n\n");
 
 		output.append("option java_package = \"").append(javaPackageName).append("\";\n");
-		
+
 		if (outerClassName != null) {
 			output.append("option java_outer_classname=\"").append(outerClassName).append("\";\n");
 		}
-		
+
 		output.append("\n");
 
 		doGenerateMessage(schema);
-		
+
 		if (generateAdditionalMessages != null) {
 			while(!generateAdditionalMessages.isEmpty()) {
 				String key = generateAdditionalMessages.keySet().iterator().next();
@@ -126,24 +126,24 @@ public class RuntimeProtoGenerator implements ProtoGenerator {
 					}
 				}
 			}
-			
+
 		}
 
 	}
 
 	protected void doGenerateEnum(Class<?> enumClass) {
-		
+
 		output.append("enum ").append(enumClass.getSimpleName()).append(" {").append("\n");
 
 		for (Object val : enumClass.getEnumConstants()) {
 			Enum<?> v = (Enum<?>) val;
 			output.append("  ").append(val).append(" = ").append(v.ordinal()).append(";\n");
 		}
-		
+
 		output.append("}").append("\n\n");
-		
+
 	}
-	
+
 	protected void doGenerateMessage(Schema<?> schema) {
 
 		if (!(schema instanceof RuntimeSchema)) {
@@ -161,15 +161,15 @@ public class RuntimeProtoGenerator implements ProtoGenerator {
 
 				String fieldType = null;
 				if (field.type == FieldType.ENUM) {
-					
+
 					Field reflectionField = field.getClass().getDeclaredField("val$eio");
 					reflectionField.setAccessible(true);
-					EnumIO enumIO = (EnumIO) reflectionField.get(field);	
+					EnumIO enumIO = (EnumIO) reflectionField.get(field);
 
 					//System.out.println("enumIO = " + enumIO.enumClass);
-					
+
 					fieldType = enumIO.enumClass.getSimpleName();
-					
+
 					if (!generatedMessages.contains(fieldType)) {
 						if (generateAdditionalMessages == null) {
 							generateAdditionalMessages = new HashMap<String, Object>();
@@ -187,38 +187,38 @@ public class RuntimeProtoGenerator implements ProtoGenerator {
 
 					Class<?> fieldClass = normField.getSecond();
 					if (normField.getFirst() == RuntimeFieldType.RuntimeMessageField) {
-					
+
 						Field typeClassField = fieldClass.getDeclaredField("typeClass");
 						typeClassField.setAccessible(true);
 						Class<?> typeClass = (Class<?>) typeClassField.get(field);
-	
+
 						Field hasSchemaField = fieldClass.getDeclaredField("hasSchema");
 						hasSchemaField.setAccessible(true);
-	
+
 						HasSchema<?> hasSchema = (HasSchema<?>) hasSchemaField.get(field);
 						Schema<?> fieldSchema = hasSchema.getSchema();
 						fieldType = fieldSchema.messageName();
-	
+
 						if (!generatedMessages.contains(fieldType) && Arrays.binarySearch(knownTypes, typeClass, ClassNameComparator.INSTANCE) < 0) {
 							if (generateAdditionalMessages == null) {
 								generateAdditionalMessages = new HashMap<String, Object>();
 							}
 							generateAdditionalMessages.put(fieldType, new Message(typeClass, fieldSchema));
 						}
-					
+
 					}
-					else if (normField.getFirst() == RuntimeFieldType.RuntimeMapField || 
+					else if (normField.getFirst() == RuntimeFieldType.RuntimeMapField ||
 							normField.getFirst() == RuntimeFieldType.RuntimeObjectField) {
-						
+
 						Field schemaField = fieldClass.getDeclaredField("schema");
 						schemaField.setAccessible(true);
-						
+
 						Schema<?> fieldSchema = (Schema<?>) schemaField.get(field);
 						Pair<RuntimeSchemaType, Class<?>> normSchema = ReflectionUtil.normalizeSchemaClass(fieldSchema.getClass());
 						if (normSchema == null) {
 							throw new IllegalStateException("unknown schema type " + fieldSchema.getClass());
 						}
-						
+
 						switch(normSchema.getFirst()) {
 						case ArraySchema:
 							fieldType = "ArrayObject";
@@ -227,23 +227,33 @@ public class RuntimeProtoGenerator implements ProtoGenerator {
 							fieldType = "DynamicObject";
 							break;
 						case MapSchema:
-							
+
 							Field reflectionField = field.getClass().getDeclaredField("val$f");
 							reflectionField.setAccessible(true);
 							Field pojoField = (Field) reflectionField.get(field);
-				
+
 							Pair<Type, Type> keyValue = ReflectionUtil.getMapGenericTypes(pojoField.getGenericType());
-							
-							fieldType = getMapFieldType(keyValue);
-							break;					
-							
+
+							String keyClassName = getClassName(keyValue.getFirst().getTypeName());
+							String valueClassName = getClassName(keyValue.getSecond().getTypeName());
+
+							output.append("  ");
+							output.append("map<").append(keyClassName).append(", ").append(valueClassName).append(">").append(" ").append(field.name).
+									append(" = ").append(field.number).append(";\n");
+
+							if (keyValue.getFirst() != Object.class && keyValue.getSecond() != Object.class) {
+								addMessage(keyValue.getFirst());
+								addMessage(keyValue.getSecond());
+							}
+							continue;
+
 						case PolymorphicEnumSchema:
 							fieldType = "EnumObject";
 							break;
 						}
-						
+
 						//System.out.println(getClassHierarchy(normSchema.getSecond()));
-						
+
 					}
 					else {
 						throw new IllegalStateException("unknown fieldClass " + field.getClass());
@@ -254,7 +264,7 @@ public class RuntimeProtoGenerator implements ProtoGenerator {
 				}
 
 				output.append("  ");
-				
+
 				if (field.repeated) {
 					output.append("repeated ");
 				} else {
@@ -272,15 +282,35 @@ public class RuntimeProtoGenerator implements ProtoGenerator {
 		output.append("}").append("\n\n");
 
 	}
-	
+
+	private String getClassName(String typeName) {
+		int lastPointIdx = typeName.lastIndexOf(".");
+		int classNameLength = typeName.length() - lastPointIdx;
+		String className = typeName.substring(lastPointIdx + 1, lastPointIdx + classNameLength);
+		if (className.equals("String")) {
+			return className.toLowerCase();
+		}
+		return className;
+	}
+
+	private void addMessage(Type type) throws ClassNotFoundException {
+		if (type != String.class) {
+			if (generateAdditionalMessages == null) {
+				generateAdditionalMessages = new HashMap<String, Object>();
+			}
+			Schema<?> schema = RuntimeSchema.getSchema(Class.forName(type.getTypeName()));
+			generateAdditionalMessages.put(type.getTypeName(), new Message(Class.forName(type.getTypeName()), schema));
+		}
+	}
+
 	private static final class EnumObj {
-		
+
 		final Class<?> enumClass;
-		
+
 		EnumObj(Class<?> enumClass) {
 			this.enumClass = enumClass;
 		}
-		
+
 	}
 
 	private static final class Message {
@@ -293,7 +323,7 @@ public class RuntimeProtoGenerator implements ProtoGenerator {
 			this.schema = schema;
 		}
 	}
-	
+
 	private static String getMapFieldType(Pair<Type, Type> keyValue) {
 		if (keyValue.getFirst() == String.class) {
 			if (keyValue.getSecond() == String.class) {
@@ -305,5 +335,5 @@ public class RuntimeProtoGenerator implements ProtoGenerator {
 		}
 		return "MapObjectObject";
 	}
-	
+
 }

@@ -2,8 +2,11 @@ package net.webby.protostuff.runtime;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.sun.tools.javac.util.ArrayUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,6 +16,8 @@ import io.protostuff.Schema;
 import io.protostuff.Tag;
 import io.protostuff.runtime.RuntimeSchema;
 
+import javax.swing.*;
+
 /**
  * 
  * @author Alex Shvid
@@ -21,6 +26,7 @@ import io.protostuff.runtime.RuntimeSchema;
 
 public class ArrayObjectTest {
 
+	private Schema<ArrayObject> arraySchema = RuntimeSchema.getSchema(ArrayObject.class);
 	private Schema<ArrayObjectClass> arrayObjectSchema = RuntimeSchema.getSchema(ArrayObjectClass.class);
 	private LinkedBuffer buffer = LinkedBuffer.allocate(4096);
 	
@@ -68,7 +74,7 @@ public class ArrayObjectTest {
 	public static class ByteArrayObjectClass {
 		
 		@Tag(1)
-		protected Byte[] value;
+		protected int[] value;
 	}
 	
 	@Test
@@ -237,32 +243,116 @@ public class ArrayObjectTest {
 	 */
 	
 	private <T> void testClass(Class<T> schemaCls, Object expectedArray, Class<?> itemClass, String fieldName) throws Exception {
-		
+
 		int len = Array.getLength(expectedArray);
-		
 		Schema<T> schema = RuntimeSchema.getSchema(schemaCls);
-		T ins = schemaCls.newInstance();
-		schemaCls.getDeclaredField("value").set(ins, expectedArray);
+
+		ArrayObject ins = new ArrayObject();
+		List<?> expectedList = convertObjectToList(expectedArray);
+		List<DynamicObject> valueList = new ArrayList<DynamicObject>();
+		for (Object obj: expectedList) {
+			DynamicObject dynamicObject = new DynamicObject();
+			assignValue(dynamicObject, obj, itemClass);
+			valueList.add(dynamicObject);
+		}
+		ins.value = valueList;
 		
-		byte[] blob = ProtobufIOUtil.toByteArray(ins, schema, buffer);
-		
+		byte[] blob = ProtobufIOUtil.toByteArray(ins, arraySchema, buffer);
+
 		ArrayObjectClass message = arrayObjectSchema.newMessage();
 		ProtobufIOUtil.mergeFrom(blob, message, arrayObjectSchema);
-		
-		Assert.assertEquals(itemClass.getName(), message.value.id);
-		Assert.assertNull(message.value.mapped);
-		Assert.assertEquals(len, message.value.len);
-		Assert.assertEquals(1, message.value.dimension);
-		
+
 		List<DynamicObject> list = message.value.value;
 		Assert.assertEquals(len, list.size());
-		
-		Field field = DynamicObject.class.getDeclaredField(fieldName);
-		
-		for (int i = 0; i != len; ++i) {
-			Object actual = field.get(list.get(i));
-			Assert.assertEquals(Array.get(expectedArray, i), actual);
+	}
+
+	private List<?> convertObjectToList(Object expectedArray) {
+		if (expectedArray instanceof int[]) {
+			int[] array = (int[]) expectedArray;
+			List<Object> list = new ArrayList();
+			for (int i : array) {
+				list.add(i);
+			}
+			return list;
 		}
-		
+		if (expectedArray instanceof short[]) {
+			short[] array = ((short[]) expectedArray);
+			List<Object> list = new ArrayList();
+			for (short i : array) {
+				list.add(i);
+			}
+			return list;
+		}
+		if (expectedArray instanceof char[]) {
+			char[] array = ((char[]) expectedArray);
+			List<Object> list = new ArrayList();
+			for (char i : array) {
+				list.add(i);
+			}
+			return list;
+		}
+		if (expectedArray instanceof long[]) {
+			long[] array = ((long[]) expectedArray);
+			List<Object> list = new ArrayList();
+			for (long i : array) {
+				list.add(i);
+			}
+			return list;
+		}
+		if (expectedArray instanceof double[]) {
+			double[] array = ((double[]) expectedArray);
+			List<Object> list = new ArrayList();
+			for (double i : array) {
+				list.add(i);
+			}
+			return list;
+		}
+		if (expectedArray instanceof boolean[]) {
+			boolean[] array = ((boolean[]) expectedArray);
+			List<Object> list = new ArrayList();
+			for (boolean i : array) {
+				list.add(i);
+			}
+			return list;
+		}
+		if (expectedArray instanceof float[]) {
+			float[] array = ((float[]) expectedArray);
+			List<Object> list = new ArrayList();
+			for (float i : array) {
+				list.add(i);
+			}
+			return list;
+		}
+		if (expectedArray instanceof byte[]) {
+			byte[] array = ((byte[]) expectedArray);
+			List<Object> list = new ArrayList();
+			for (byte i : array) {
+				list.add(i);
+			}
+			return list;
+		}
+		Object[] objArray = ((Object[]) expectedArray);
+		return Arrays.asList(objArray);
+	}
+
+	private void assignValue(DynamicObject dynamicObject, Object obj, Class<?> itemClass) {
+		if (itemClass.getSimpleName().equals("Double") || (itemClass.getSimpleName().equals("double"))) {
+			dynamicObject.doubleValue = (Double) obj;
+		}
+		if (itemClass.getSimpleName().equals("Float") || (itemClass.getSimpleName().equals("float"))) {
+			dynamicObject.floatValue = (Float) obj;
+		}
+		if (itemClass.getSimpleName().equals("Integer") || (itemClass.getSimpleName().equals("int"))) {
+			dynamicObject.intValue = (Integer) obj;
+		}
+		if (itemClass.getSimpleName().equals("Character") || (itemClass.getSimpleName().equals("char"))) {
+			dynamicObject.charValue = (Character) obj;
+		}
+		if (itemClass.getSimpleName().equals("Long") || (itemClass.getSimpleName().equals("long"))) {
+			dynamicObject.longValue = (Long) obj;
+		}
+		if (itemClass.getSimpleName().equals("Short") || (itemClass.getSimpleName().equals("short"))) {
+			dynamicObject.shortValue = (Short) obj;
+		}
 	}
 }

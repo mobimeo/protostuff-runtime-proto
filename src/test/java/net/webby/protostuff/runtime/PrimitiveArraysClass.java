@@ -12,27 +12,27 @@ import io.protostuff.Tag;
 public class PrimitiveArraysClass {
 
 	@Tag(1)
-	protected boolean[] booleanValue;
+	protected ArrayObject booleanValue;
 
 	@Tag(2)
-	protected byte[] byteValue;
+	protected ArrayObject byteValue;
 
 	@Tag(3)
-	protected char[] charValue;
+	protected ArrayObject charValue;
 	
 	@Tag(4)
-	protected short[] shortValue;
+	protected ArrayObject shortValue;
 
 	@Tag(5)
-	protected int[] intValue;
+	protected ArrayObject intValue;
 
 	@Tag(6)
-	protected long[] longValue;
+	protected ArrayObject longValue;
 
 	@Tag(7)
-	protected float[] floatValue;
+	protected ArrayObject floatValue;
 
 	@Tag(8)
-	protected double[] doubleValue;
+	protected ArrayObject doubleValue;
 	
 }

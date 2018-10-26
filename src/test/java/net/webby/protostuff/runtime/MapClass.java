@@ -5,7 +5,7 @@ import java.util.Map;
 import io.protostuff.Tag;
 
 /**
- * 
+ *
  * @author Alex Shvid
  *
  */
@@ -17,9 +17,9 @@ public class MapClass {
 	protected Map<String, String> stringToString;
 
 	@Tag(2)
-	protected Map<String, Object> stringToObject;
+	protected Map<String, MapValueObject> stringToObject;
 
 	@Tag(3)
-	protected Map<Object, Object> objectToObject;
+	protected Map<MapKeyObject, MapValueObject> objectToObject;
 
 }

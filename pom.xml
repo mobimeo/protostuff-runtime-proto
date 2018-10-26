@@ -2,15 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.webby.proto</groupId>
+	<groupId>com.moovel.proto</groupId>
 	<artifactId>protostuff-runtime-proto</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>protostuff-runtime-proto</name>
 	<description>Protostuff Runtime Proto Files Generator</description>
 
 	<properties>
-		<protostuff.version>1.3.6</protostuff.version>
+		<protostuff.version>1.5.9</protostuff.version>
 		<antlr3.version>3.2</antlr3.version>
 	</properties>
 
@@ -26,28 +26,28 @@
 			<artifactId>protostuff-runtime</artifactId>
 			<version>${protostuff.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>io.protostuff</groupId>
 			<artifactId>protostuff-parser</artifactId>
 			<version>${protostuff.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr-runtime</artifactId>
 			<version>${antlr3.version}</version>
-		</dependency>		
-		
+		</dependency>
+
 		<!-- TEST -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 			<scope>test</scope>
-		</dependency>		
-		
+		</dependency>
+
 	</dependencies>
 
 	<build>
