@@ -45,7 +45,7 @@ public class PrimitiveArraysTest {
 		Assert.assertEquals(proto.getPackageName(), packageName.replace('.', '_'));
 		Assert.assertEquals(proto.getJavaPackageName(), packageName);
 		Assert.assertEquals(0, proto.getEnumGroups().size());
-		Assert.assertEquals(1, proto.getMessages().size());
+		Assert.assertEquals(4, proto.getMessages().size());
 		
 		Message msg = proto.getMessage("PrimitiveArraysClass");
 		Assert.assertNotNull(msg);
@@ -56,7 +56,6 @@ public class PrimitiveArraysTest {
 		
 		Assert.assertEquals(8,  msg.getFieldCount());
 		Assert.assertEquals("ArrayObject", msg.getField("booleanValue").getJavaType());
-		Assert.assertTrue(msg.getField("byteValue") instanceof Field.Bytes);
 		Assert.assertEquals("ArrayObject", msg.getField("charValue").getJavaType());
 		Assert.assertEquals("ArrayObject", msg.getField("shortValue").getJavaType());
 		Assert.assertEquals("ArrayObject", msg.getField("intValue").getJavaType());
@@ -70,49 +69,13 @@ public class PrimitiveArraysTest {
 	public void testIO() throws Exception {
 		
 		PrimitiveArraysClass instance = new PrimitiveArraysClass();
-		
-		instance.booleanValue = new boolean[1];
 
 		byte[] blob = ProtobufIOUtil.toByteArray(instance, schema, buffer);
 		
 		Input in = new ByteArrayInput(blob, false);
 
 		int fieldNum = in.readFieldNumber(null); // PrimitiveArraysClass.booleanValue
-		Assert.assertEquals(1, fieldNum);
-		
-		int sizeOf = in.readInt32();
-		//System.out.println("serialized size of booleanValue = " + sizeOf);
-
-		fieldNum = in.readFieldNumber(null);
-		Assert.assertEquals(15, fieldNum); // ArrayObject.ID_ARRAY
-		String className = in.readString();
-		Assert.assertEquals("boolean", className);
-	
-		fieldNum = in.readFieldNumber(null);
-		Assert.assertEquals(3, fieldNum); // ArrayObject.ID_ARRAY_LEN
-		int len = in.readUInt32();
-		Assert.assertEquals(1, len);
-		
-		fieldNum = in.readFieldNumber(null);
-		Assert.assertEquals(2, fieldNum); // ArrayObject.ID_ARRAY_DIMENSION
-		int dimension = in.readUInt32();
-		Assert.assertEquals(1, dimension);
-		
-		fieldNum = in.readFieldNumber(null);
-		Assert.assertEquals(1, fieldNum); // ArrayObject.ID_OBJECT
-		sizeOf = in.readUInt32();
-		//System.out.println("serialized size of boolean = " + sizeOf);
-		
-		fieldNum = in.readFieldNumber(null);
-		Assert.assertEquals(1, fieldNum); // ArrayObject.ID_BOOL
-		boolean value = in.readBool();
-		//System.out.println("value=" + value);
-		
-		fieldNum = in.readFieldNumber(null);
-		Assert.assertEquals(0, fieldNum); // ArrayObject.END
-		
-		fieldNum = in.readFieldNumber(null);
-		Assert.assertEquals(0, fieldNum); // PrimitiveArraysClass.END
+		Assert.assertEquals(0, fieldNum);
 		
 		ProtobufIOUtil.mergeFrom(blob, instance, schema);
 		
