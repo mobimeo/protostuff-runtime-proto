@@ -1,3 +1,7 @@
+
+
+**Note**: This is a fork of the project *https://github.com/webbynet/protostuff-runtime-proto* to continue the development, like adding supporting types.
+
 Protostuff runtime generator for .proto files
 ====
 
