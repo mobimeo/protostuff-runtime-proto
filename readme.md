@@ -36,9 +36,9 @@ mvn clean install
 * Include this dependency to your pom file:
 ```
 <dependency>
-  <groupId>net.webby.proto</groupId>
+  <groupId>com.moovel.proto</groupId>
   <artifactId>protostuff-runtime-proto</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>0.0.1</version>
 </dependency>
 ```
 * Use generator API to generate .proto files in your project:

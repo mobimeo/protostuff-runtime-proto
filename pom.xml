@@ -4,10 +4,22 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.moovel.proto</groupId>
 	<artifactId>protostuff-runtime-proto</artifactId>
-	<version>0.0.1</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>protostuff-runtime-proto</name>
 	<description>Protostuff Runtime Proto Files Generator</description>
+	<url>https://github.com/moovel/protostuff-runtime-proto</url>
+	<scm>
+		<connection>scm:git:git://github.com/moovel/protostuff-runtime-proto.git</connection>
+		<developerConnection>scm:git:git@github.com:moovel/protostuff-runtime-proto.git</developerConnection>
+		<url>https://github.com/moovel/protostuff-runtime-proto</url>
+	</scm>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+		</license>
+	</licenses>
 
 	<properties>
 		<protostuff.version>1.5.9</protostuff.version>
@@ -83,7 +95,43 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<useReleaseProfile>false</useReleaseProfile>
+					<releaseProfiles>release</releaseProfiles>
+					<goals>deploy</goals>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 
 </project>
