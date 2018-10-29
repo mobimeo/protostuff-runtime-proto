@@ -1,12 +1,10 @@
 package net.webby.protostuff.runtime;
 
 import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.sun.tools.javac.util.ArrayUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,8 +13,6 @@ import io.protostuff.ProtobufIOUtil;
 import io.protostuff.Schema;
 import io.protostuff.Tag;
 import io.protostuff.runtime.RuntimeSchema;
-
-import javax.swing.*;
 
 /**
  * 
