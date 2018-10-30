@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.moovel.proto</groupId>
 	<artifactId>protostuff-runtime-proto</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<packaging>jar</packaging>
 	<name>protostuff-runtime-proto</name>
 	<description>Protostuff Runtime Proto Files Generator</description>
@@ -12,7 +12,7 @@
 		<connection>scm:git:git://github.com/moovel/protostuff-runtime-proto.git</connection>
 		<developerConnection>scm:git:git@github.com:moovel/protostuff-runtime-proto.git</developerConnection>
 		<url>https://github.com/moovel/protostuff-runtime-proto</url>
-	  <tag>HEAD</tag>
+	  <tag>protostuff-runtime-proto-0.0.2</tag>
   </scm>
 	<licenses>
 		<license>
