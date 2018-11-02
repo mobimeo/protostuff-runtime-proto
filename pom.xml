@@ -12,8 +12,16 @@
 		<connection>scm:git:git://github.com/moovel/protostuff-runtime-proto.git</connection>
 		<developerConnection>scm:git:git@github.com:moovel/protostuff-runtime-proto.git</developerConnection>
 		<url>https://github.com/moovel/protostuff-runtime-proto</url>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
+	<developers>
+		<developer>
+			<name>Aram Zamora</name>
+			<email>aram.zamora@moovel.com</email>
+			<organization>Moovel</organization>
+			<organizationUrl>http://www.moovel.com</organizationUrl>
+		</developer>
+	</developers>
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -119,6 +127,19 @@
 					<releaseProfiles>release</releaseProfiles>
 					<goals>deploy</goals>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
